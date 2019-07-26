@@ -17,8 +17,10 @@ public class Main {
 
             if(opt == 1) {
                 System.out.println("Digite o primeiro e o segundo vértice a ser conectado: ");
+
                 fst = scanner.nextInt();
                 scd = scanner.nextInt();
+                
                 if(!connect(fst, scd)) {
                     System.out.println("Failed connecting!");
                 }
