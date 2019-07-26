@@ -11,6 +11,8 @@ public class Main {
         System.out.println("Number of vertices: ");
         qtdVertices = getInt(scanner);
 
+        System.out.println();
+
         if(qtdVertices < 0) {
             System.err.println("Invalid number!!");
             return;
