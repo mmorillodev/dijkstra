@@ -41,12 +41,15 @@ public class Dijkstra {
         StringBuilder builder = new StringBuilder("\n  ");
 
         for (int i = 1; i <= this.adjMatrix.length; i++)
-            builder.append(i).append(i == this.adjMatrix.length ? "\n" : " ");
+            builder.append(i)
+                    .append(i == this.adjMatrix.length ? "\n" : " ");
 
         for (int i = 0; i < this.adjMatrix.length; i++) {
             builder.append(i + 1).append(" ");
+
             for (int j = 0; j < this.adjMatrix[i].length; j++) {
-                builder.append(this.parseInt(this.adjMatrix[i][j])).append(j == this.adjMatrix[i].length - 1 ? "" : " ");
+                builder.append(this.parseInt(this.adjMatrix[i][j]))
+                        .append(j == this.adjMatrix[i].length - 1 ? "" : " ");
             }
             builder.append("\n");
         }

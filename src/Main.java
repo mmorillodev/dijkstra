@@ -1,14 +1,12 @@
 import java.util.Scanner;
 public class Main {
 
-    private static boolean[][] adjMatrix;
-
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         int opt, qtdVertices, fst, scd;
         Dijkstra dijkstra;
 
-        System.out.println("Quantity of vertices: ");
+        System.out.println("Number of vertices: ");
         qtdVertices = scanner.nextInt();
 
         dijkstra = new Dijkstra(qtdVertices, true);
@@ -24,7 +22,7 @@ public class Main {
                 scd = scanner.nextInt();
 
                 if(!dijkstra.link(fst, scd)) {
-                    System.out.println("Failed connecting!");
+                    System.out.println("Failed Linking!");
                 }
             }
             else if(opt == 2) {
