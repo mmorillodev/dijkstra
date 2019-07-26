@@ -32,18 +32,21 @@ public class Dijkstra {
     }
 
     public String toString() {
-        StringBuilder builder = new StringBuilder("\t");
+        int mLength = this.adjMatrix.length;
+        StringBuilder builder = new StringBuilder(mLength <= 10 ? "\t" : "");
 
-        for (int i = 0; i < this.adjMatrix.length; i++)
-            builder.append(i)
-                    .append(i == this.adjMatrix.length - 1 ? "\n\n" : " ");
+        if(mLength <= 10)
+            for (int i = 0; i < mLength; i++)
+                builder.append(i)
+                        .append(i == mLength - 1 ? "\n\n" : " ");
 
-        for (int i = 0; i < this.adjMatrix.length; i++) {
-            builder.append(i).append("\t");
+        for (int i = 0; i < mLength; i++) {
+            if(mLength <= 10)
+                builder.append(i).append("\t");
 
             for (int j = 0; j < this.adjMatrix[i].length; j++) {
                 builder.append(this.parseInt(this.adjMatrix[i][j]))
-                        .append(j == this.adjMatrix[i].length - 1 ? "" : " ");
+                        .append(j < this.adjMatrix[i].length ? " " : "");
             }
             builder.append("\n");
         }
