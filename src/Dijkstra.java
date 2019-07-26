@@ -8,9 +8,6 @@ public class Dijkstra {
     }
 
     public boolean link(int fst, int scd) {
-        fst -= 1;
-        scd -= 1;
-
         if (fst >= this.adjMatrix.length || scd >= this.adjMatrix.length || fst < 0 || scd < 0)
             return false;
 
@@ -23,9 +20,6 @@ public class Dijkstra {
     }
 
     public boolean unLink(int fst, int scd) {
-        fst -= 1;
-        scd -= 1;
-
         if (fst >= this.adjMatrix.length || scd >= this.adjMatrix.length || fst <= 0 || scd <= 0)
             return false;
 
@@ -38,14 +32,14 @@ public class Dijkstra {
     }
 
     public String toString() {
-        StringBuilder builder = new StringBuilder("\n  ");
+        StringBuilder builder = new StringBuilder("\t");
 
-        for (int i = 1; i <= this.adjMatrix.length; i++)
+        for (int i = 0; i < this.adjMatrix.length; i++)
             builder.append(i)
-                    .append(i == this.adjMatrix.length ? "\n" : " ");
+                    .append(i == this.adjMatrix.length - 1 ? "\n\n" : " ");
 
         for (int i = 0; i < this.adjMatrix.length; i++) {
-            builder.append(i + 1).append(" ");
+            builder.append(i).append("\t");
 
             for (int j = 0; j < this.adjMatrix[i].length; j++) {
                 builder.append(this.parseInt(this.adjMatrix[i][j]))

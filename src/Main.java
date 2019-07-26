@@ -25,6 +25,7 @@ public class Main {
                 scanner.nextLine();
 
             opt = getInt(scanner);
+            System.out.println();
 
             if(opt == -1)
                 clearBuffer = true;
