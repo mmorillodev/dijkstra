@@ -60,6 +60,9 @@ public class Dijkstra {
         if (node1 >= this.adjMatrix.length || node2 >= this.adjMatrix.length || node1 < 0 || node2 < 0)
             return null;
 
+        if(!hasConnections(node1))
+            return null;
+
         List<Integer> path = new ArrayList<>(){{
             add(node1);
         }};
@@ -119,6 +122,20 @@ public class Dijkstra {
 
     private boolean isLinked(int n1, int n2) {
         return this.adjMatrix[n1][n2] > 0;
+    }
+
+    private boolean hasConnections(int node) {
+        for(int i = 0; i < this.adjMatrix[node].length; i++) {
+            if(this.adjMatrix[node][i] > 0)
+                return true;
+        }
+
+        for(int i = 0; i < this.adjMatrix.length; i++) {
+            if(this.adjMatrix[i][node] > 0)
+                return true;
+        }
+
+        return false;
     }
 
     private int parseInt(int node) {

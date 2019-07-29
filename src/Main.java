@@ -94,13 +94,15 @@ public class Main {
                 fst = tryGetInt(scanner);
                 scd = tryGetInt(scanner);
 
+                System.out.println();
+
                 List<Integer> path = dijkstra.getShortestPath(fst, scd);
 
                 if(path != null) {
-                    System.out.println(path.toString());
+                    System.out.println(path.toString() + "\n");
                 }
                 else {
-                    System.err.println("Invalid values provided!");
+                    System.err.println("Either no path found or invalid values provided!");
                 }
             }
             else if (opt != 0) {
