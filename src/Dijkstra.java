@@ -45,23 +45,6 @@ public class Dijkstra {
         return true;
     }
 
-    /*public String toString() {
-        StringBuilder builder = new StringBuilder();
-
-        int j;
-        for (Node[] line : adjMatrix) {
-            j = 0;
-            for (Node node : line) {
-                builder.append(this.parseInt(node))
-                        .append(j < line.length ? " " : "");
-                j++;
-            }
-            builder.append("\n");
-        }
-
-        return builder.toString();
-    }*/
-
     public String toString() {
         int mLength = this.adjMatrix.length;
         StringBuilder builder = new StringBuilder(mLength <= 10 ? "\t" : "");
@@ -93,13 +76,13 @@ public class Dijkstra {
                 if(this.adjMatrix[i][j] == 0)
                     continue;
 
-                if(doublyLinked && i > j)
+                if(i > j && this.adjMatrix[i][j] == this.adjMatrix[j][i])
                     continue;
 
                 if(builder.length() > 1)
                     builder.append(", ");
 
-                builder.append("(").append(i).append(doublyLinked ? " <-> " : " -> ").append(j).append(") = ").append(this.adjMatrix[i][j]);
+                builder.append("(").append(i).append(this.adjMatrix[i][j] == this.adjMatrix[j][i] ? " <-> " : " -> ").append(j).append(") = ").append(this.adjMatrix[i][j]);
             }
         }
 
