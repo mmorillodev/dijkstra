@@ -78,9 +78,11 @@ public class Main {
             }
             else if(opt == 4) {
                 System.out.println(dijkstra.toString());
+                System.out.println();
             }
             else if(opt == 5) {
                 System.out.println(dijkstra.completeLog());
+                System.out.println();
             }
             else if(opt == 6) {
                 cls();
@@ -104,8 +106,8 @@ public class Main {
     private static char tryGetChar(Scanner scanner) {
         try {
             return scanner.nextLine().toLowerCase().charAt(0);
-        } catch (InputMismatchException e) {
-            return 's';
+        } catch (InputMismatchException | StringIndexOutOfBoundsException e) {
+            return 'n';
         }
     }
 

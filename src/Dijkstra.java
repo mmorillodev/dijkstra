@@ -62,7 +62,8 @@ public class Dijkstra {
                 builder.append(this.parseInt(this.adjMatrix[i][j]))
                         .append(j < this.adjMatrix[i].length ? " " : "");
             }
-            builder.append("\n");
+            if(i < mLength - 1)
+                builder.append("\n");
         }
 
         return builder.toString();
