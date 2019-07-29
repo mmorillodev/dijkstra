@@ -1,3 +1,6 @@
+import java.util.ArrayList;
+import java.util.List;
+
 public class Dijkstra {
     private int[][]     adjMatrix;
     private boolean     doublyLinked;
@@ -43,6 +46,10 @@ public class Dijkstra {
             this.adjMatrix[scd][fst] = 0;
         }
         return true;
+    }
+
+    public Integer[] getShortestPath(int node1, int node2) {
+        return null;
     }
 
     public String getMatrixAsString() {
