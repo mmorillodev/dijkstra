@@ -36,7 +36,7 @@ public class Dijkstra {
         return true;
     }
 
-    public boolean unLink(int fst, int scd) {
+    public boolean unlink(int fst, int scd) {
         if (fst >= this.adjMatrix.length || scd >= this.adjMatrix.length || fst < 0 || scd < 0)
             return false;
 
@@ -48,8 +48,28 @@ public class Dijkstra {
         return true;
     }
 
-    public Integer[] getShortestPath(int node1, int node2) {
-        return null;
+    public void unlinkAll() {
+        for(int i = 0; i < this.adjMatrix.length; i++) {
+            for(int j = 0; j < this.adjMatrix[i].length; j++) {
+                this.adjMatrix[i][j] = 0;
+            }
+        }
+    }
+
+    public List<Integer> getShortestPath(int node1, int node2) {
+        if (node1 >= this.adjMatrix.length || node2 >= this.adjMatrix.length || node1 < 0 || node2 < 0)
+            return null;
+
+        List<Integer> path = new ArrayList<>(){{
+            add(node1);
+        }};
+
+        if(isLinked(node1, node2)) {
+            path.add(node2);
+            return path;
+        }
+
+        return path;
     }
 
     public String getMatrixAsString() {
@@ -95,6 +115,10 @@ public class Dijkstra {
         }
 
         return builder.append("]").toString();
+    }
+
+    private boolean isLinked(int n1, int n2) {
+        return this.adjMatrix[n1][n2] > 0;
     }
 
     private int parseInt(int node) {

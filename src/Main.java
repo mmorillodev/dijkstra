@@ -1,4 +1,5 @@
 import java.util.InputMismatchException;
+import java.util.List;
 import java.util.Scanner;
 public class Main {
 
@@ -69,7 +70,7 @@ public class Main {
                 fst = tryGetInt(scanner);
                 scd = tryGetInt(scanner);
 
-                if (!dijkstra.unLink(fst, scd)) {
+                if (!dijkstra.unlink(fst, scd)) {
                     System.out.println("Failed to unlink");
                 }
             }
@@ -83,6 +84,24 @@ public class Main {
             }
             else if(opt == 6) {
                 cls();
+            }
+            else if(opt == 7) {
+                dijkstra.unlinkAll();
+            }
+            else if(opt == 8) {
+                System.out.println("Type two Nodes: ");
+
+                fst = tryGetInt(scanner);
+                scd = tryGetInt(scanner);
+
+                List<Integer> path = dijkstra.getShortestPath(fst, scd);
+
+                if(path != null) {
+                    System.out.println(path.toString());
+                }
+                else {
+                    System.err.println("Invalid values provided!");
+                }
             }
             else if (opt != 0) {
                 System.err.println("Invalid Option!\n");
@@ -109,11 +128,13 @@ public class Main {
 
     private static String getPanel() {
         return  "1- Link\n" +
-                "2- Link with weight\n" +
                 "3- Unlink\n" +
+                "2- Link with weight\n" +
                 "4- Show raw connections\n" +
                 "5- Show complete connections\n" +
                 "6- Clear Log\n" +
+                "7- Clear Graph\n" +
+                "8- Get path\n" +
                 "0- Exit\n\n" +
                 "Option: ";
     }
