@@ -24,7 +24,7 @@ public class Main {
 
         System.out.println("Doubly linked? [S][N]");
 
-        dijkstra = new Dijkstra(qtdVertices, tryGetChar(scanner) == 's' ? true : false);
+        dijkstra = new Dijkstra(qtdVertices, tryGetChar(scanner) == 's');
 
         //Line break;
         System.out.println();
@@ -38,10 +38,7 @@ public class Main {
             opt = tryGetInt(scanner);
             System.out.println();
 
-            if(opt == -1)
-                clearBuffer = true;
-            else
-                clearBuffer = false;
+            clearBuffer = opt == -1;
 
             if(opt == 1) {
                 System.out.println("Type two vertices to be linked: ");
@@ -77,18 +74,17 @@ public class Main {
                 }
             }
             else if(opt == 4) {
-                System.out.println(dijkstra.toString());
+                System.out.println(dijkstra.getMatrixAsString());
                 System.out.println();
             }
             else if(opt == 5) {
-                System.out.println(dijkstra.completeLog());
+                System.out.println(dijkstra.toString());
                 System.out.println();
             }
             else if(opt == 6) {
                 cls();
             }
-            else if(opt == 0);
-            else {
+            else if (opt != 0) {
                 System.err.println("Invalid Option!\n");
             }
         } while(opt != 0);

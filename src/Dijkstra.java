@@ -45,7 +45,7 @@ public class Dijkstra {
         return true;
     }
 
-    public String toString() {
+    public String getMatrixAsString() {
         int mLength = this.adjMatrix.length;
         StringBuilder builder = new StringBuilder(mLength <= 10 ? "\t" : "");
 
@@ -69,7 +69,7 @@ public class Dijkstra {
         return builder.toString();
     }
 
-    public String completeLog() {
+    public String toString() {
         StringBuilder builder = new StringBuilder("[");
 
         for(int i = 0; i < this.adjMatrix.length; i++) {
