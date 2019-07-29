@@ -4,13 +4,17 @@ public class Main {
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        int opt, qtdVertices, fst, scd;
+        int opt, qtdVertices, fst, scd, weight;
         boolean clearBuffer = false;
         Dijkstra dijkstra;
 
         System.out.println("Number of vertices: ");
-        qtdVertices = getInt(scanner);
+        qtdVertices = tryGetInt(scanner);
 
+        //Clear buffer
+        scanner.nextLine();
+
+        //Line break
         System.out.println();
 
         if(qtdVertices < 0) {
@@ -18,7 +22,12 @@ public class Main {
             return;
         }
 
-        dijkstra = new Dijkstra(qtdVertices, true);
+        System.out.println("Doubly linked? [S][N]");
+
+        dijkstra = new Dijkstra(qtdVertices, tryGetChar(scanner) == 's' ? true : false);
+
+        //Line break;
+        System.out.println();
 
         do {
             System.out.print(getPanel());
@@ -26,7 +35,7 @@ public class Main {
             if(clearBuffer)
                 scanner.nextLine();
 
-            opt = getInt(scanner);
+            opt = tryGetInt(scanner);
             System.out.println();
 
             if(opt == -1)
@@ -37,27 +46,43 @@ public class Main {
             if(opt == 1) {
                 System.out.println("Type two vertices to be linked: ");
 
-                fst = getInt(scanner);
-                scd = getInt(scanner);
+                fst = tryGetInt(scanner);
+                scd = tryGetInt(scanner);
 
                 if(!dijkstra.link(fst, scd)) {
                     System.out.println("Failed Linking!");
                 }
             }
             else if(opt == 2) {
+                System.out.println("Type two vertices to be linked: ");
+
+                fst = tryGetInt(scanner);
+                scd = tryGetInt(scanner);
+
+                System.out.println("Type the weight of this connection: ");
+                weight = tryGetInt(scanner);
+
+                if(!dijkstra.link(fst, scd, (weight <= 0 ? 1 : weight))) {
+                    System.err.println("Error linking!");
+                }
+            }
+            else if(opt == 3) {
                 System.out.println("Type two vertices to be unlinked: ");
 
-                fst = getInt(scanner);
-                scd = getInt(scanner);
+                fst = tryGetInt(scanner);
+                scd = tryGetInt(scanner);
 
                 if (!dijkstra.unLink(fst, scd)) {
                     System.out.println("Failed to unlink");
                 }
             }
-            else if(opt == 3) {
+            else if(opt == 4) {
                 System.out.println(dijkstra.toString());
             }
-            else if(opt == 4) {
+            else if(opt == 5) {
+                System.out.println(dijkstra.completeLog());
+            }
+            else if(opt == 6) {
                 cls();
             }
             else if(opt == 0);
@@ -68,7 +93,7 @@ public class Main {
     }
 
     //This method is used to encapsulate try catch block with nextInt method
-    private static int getInt(Scanner scanner) {
+    private static int tryGetInt(Scanner scanner) {
         try {
             return scanner.nextInt();
         } catch (InputMismatchException e) {
@@ -76,17 +101,27 @@ public class Main {
         }
     }
 
+    private static char tryGetChar(Scanner scanner) {
+        try {
+            return scanner.nextLine().toLowerCase().charAt(0);
+        } catch (InputMismatchException e) {
+            return 's';
+        }
+    }
+
     private static String getPanel() {
         return  "1- Link\n" +
-                "2- Unlink\n" +
-                "3- Show connections\n" +
-                "4- Clear Log\n" +
+                "2- Link with weight\n" +
+                "3- Unlink\n" +
+                "4- Show raw connections\n" +
+                "5- Show complete connections\n" +
+                "6- Clear Log\n" +
                 "0- Exit\n\n" +
                 "Option: ";
     }
 
     private static void cls() {
-        for (int i = 0; i < 20; i++) {
+        for (int i = 0; i < 25; i++) {
             System.out.println();
         }
     }

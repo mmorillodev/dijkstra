@@ -1,9 +1,9 @@
 public class Dijkstra {
-    private Node[][]    adjMatrix;
+    private int[][]     adjMatrix;
     private boolean     doublyLinked;
 
     public Dijkstra(int qtd, boolean doublyLinked) {
-        this.adjMatrix      = new Node[qtd][qtd];
+        this.adjMatrix      = new int[qtd][qtd];
         this.doublyLinked   = doublyLinked;
     }
 
@@ -11,10 +11,11 @@ public class Dijkstra {
         if (fst >= this.adjMatrix.length || scd >= this.adjMatrix.length || fst < 0 || scd < 0)
             return false;
 
-        this.adjMatrix[fst][scd].linked = true;
+        this.adjMatrix[fst][scd] = 1;
 
-        if(this.doublyLinked)
-            this.adjMatrix[scd][fst].linked = true;
+        if (this.doublyLinked) {
+            this.adjMatrix[scd][fst] = 1;
+        }
 
         return true;
     }
@@ -23,29 +24,24 @@ public class Dijkstra {
         if (fst >= this.adjMatrix.length || scd >= this.adjMatrix.length || fst < 0 || scd < 0)
             return false;
 
-        this.adjMatrix[fst][scd].linked = true;
-        this.adjMatrix[fst][scd].weight = weight;
+        this.adjMatrix[fst][scd] = weight;
 
-        if(this.doublyLinked) {
-            this.adjMatrix[scd][fst].linked = true;
-            this.adjMatrix[scd][fst].weight = weight;
+        if (this.doublyLinked) {
+            this.adjMatrix[scd][fst] = weight;
         }
 
         return true;
     }
 
     public boolean unLink(int fst, int scd) {
-        if (fst >= this.adjMatrix.length || scd >= this.adjMatrix.length || fst <= 0 || scd <= 0)
+        if (fst >= this.adjMatrix.length || scd >= this.adjMatrix.length || fst < 0 || scd < 0)
             return false;
 
-        this.adjMatrix[fst][scd].linked = false;
-        this.adjMatrix[fst][scd].weight = 0;
+        this.adjMatrix[fst][scd] = 0;
 
-        if(doublyLinked) {
-            this.adjMatrix[scd][fst].linked = false;
-            this.adjMatrix[scd][fst].weight = 0;
+        if (doublyLinked) {
+            this.adjMatrix[scd][fst] = 0;
         }
-
         return true;
     }
 
@@ -89,18 +85,31 @@ public class Dijkstra {
         return builder.toString();
     }
 
-    private int parseInt(Node node) {
-        if(node == null)
-            return 0;
+    public String completeLog() {
+        StringBuilder builder = new StringBuilder("[");
 
-        if(node.linked)
+        for(int i = 0; i < this.adjMatrix.length; i++) {
+            for(int j = 0; j < this.adjMatrix[i].length; j++) {
+                if(this.adjMatrix[i][j] == 0)
+                    continue;
+
+                if(doublyLinked && i > j)
+                    continue;
+
+                if(builder.length() > 1)
+                    builder.append(", ");
+
+                builder.append("(").append(i).append(doublyLinked ? " <-> " : " -> ").append(j).append(") = ").append(this.adjMatrix[i][j]);
+            }
+        }
+
+        return builder.append("]").toString();
+    }
+
+    private int parseInt(int node) {
+        if(node >= 1)
             return 1;
 
         return 0;
-    }
-
-    private class Node {
-        boolean linked;
-        int weight;
     }
 }
