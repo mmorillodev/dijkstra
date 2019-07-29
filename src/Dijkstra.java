@@ -67,12 +67,31 @@ public class Dijkstra {
             add(node1);
         }};
 
+        List<Integer> visitedNodes = new ArrayList<>(){{
+            add(node1);
+        }};
+
         if(isLinked(node1, node2)) {
             path.add(node2);
             return path;
         }
 
-        return path;
+        return getShortestPath(path, visitedNodes, getNonVisitedNode(visitedNodes, node1), node2);
+    }
+
+    private List<Integer> getShortestPath(List<Integer> path, List<Integer> visitedNodes, int node1, int node2) {
+        if (node1 >= this.adjMatrix.length || node2 >= this.adjMatrix.length || node1 < 0 || node2 < 0)
+            return path;
+
+        if(!hasConnections(node1))
+            return path;
+
+        if(isLinked(node1, node2)) {
+            path.add(node1);
+            return path;
+        }
+
+        return getShortestPath(path, visitedNodes, getNonVisitedNode(visitedNodes, node1), node2);
     }
 
     public String getMatrixAsString() {
@@ -118,6 +137,24 @@ public class Dijkstra {
         }
 
         return builder.append("]").toString();
+    }
+
+    private int getNonVisitedNode(List<Integer> visitedNodes, int node) {
+        for(int i = 0; i < this.adjMatrix[node].length; i++) {
+            if(this.adjMatrix[node][i] > 0)
+                if(visitedNodes.contains(this.adjMatrix[node][i]))
+                    continue;
+                return i;
+        }
+
+        for(int i = 0; i < this.adjMatrix.length; i++) {
+            if(this.adjMatrix[i][node] > 0)
+                if(visitedNodes.contains(this.adjMatrix[i][node]))
+                    continue;
+                return i;
+        }
+
+        return -1;
     }
 
     private boolean isLinked(int n1, int n2) {
