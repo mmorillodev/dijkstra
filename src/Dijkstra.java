@@ -56,6 +56,7 @@ public class Dijkstra {
         }
     }
 
+    //TODO
     public List<Integer> getShortestPath(int node1, int node2) {
         if (node1 >= this.adjMatrix.length || node2 >= this.adjMatrix.length || node1 < 0 || node2 < 0)
             return null;
@@ -79,6 +80,7 @@ public class Dijkstra {
         return getShortestPath(path, visitedNodes, getNonVisitedNode(visitedNodes, node1), node2);
     }
 
+    //TODO
     private List<Integer> getShortestPath(List<Integer> path, List<Integer> visitedNodes, int node1, int node2) {
         if (node1 >= this.adjMatrix.length || node2 >= this.adjMatrix.length || node1 < 0 || node2 < 0)
             return path;
