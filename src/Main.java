@@ -96,10 +96,10 @@ public class Main {
 
                 System.out.println();
 
-                List<Integer> path = dijkstra.getShortestPath(fst, scd);
+                Integer[] path = dijkstra.getShortestPath(fst, scd);
 
                 if(path != null) {
-                    System.out.println(path.toString() + "\n");
+                    System.out.println(arrToString(path) + "\n");
                 }
                 else {
                     System.err.println("Either no path found or invalid values provided!");
@@ -145,5 +145,14 @@ public class Main {
         for (int i = 0; i < 25; i++) {
             System.out.println();
         }
+    }
+
+    private static String arrToString(Integer[] arr) {
+        StringBuilder builder = new StringBuilder("[");
+        int i = 0;
+        for(Integer num : arr) {
+            builder.append(num).append(i < arr.length -1 ? ", " : "");
+        }
+        return builder.append("]").toString();
     }
 }
