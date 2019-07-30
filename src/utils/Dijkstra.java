@@ -3,56 +3,56 @@ package utils;
 import java.util.*;
 
 public class Dijkstra {
-    private int[][]     adjMatrix;
+    private int[][] connection;
     private boolean     doublyLinked;
 
     public Dijkstra(int qtd, boolean doublyLinked) {
-        this.adjMatrix      = new int[qtd][qtd];
+        this.connection = new int[qtd][qtd];
         this.doublyLinked   = doublyLinked;
     }
 
     public boolean link(int fst, int scd) {
-        if(fst >= this.adjMatrix.length || scd >= this.adjMatrix.length || fst < 0 || scd < 0)
+        if(fst >= this.connection.length || scd >= this.connection.length || fst < 0 || scd < 0)
             return false;
 
-        this.adjMatrix[fst][scd] = 1;
+        this.connection[fst][scd] = 1;
 
         if (this.doublyLinked) {
-            this.adjMatrix[scd][fst] = 1;
+            this.connection[scd][fst] = 1;
         }
 
         return true;
     }
 
     public boolean link(int fst, int scd, int weight) {
-        if(fst >= this.adjMatrix.length || scd >= this.adjMatrix.length || fst < 0 || scd < 0)
+        if(fst >= this.connection.length || scd >= this.connection.length || fst < 0 || scd < 0)
             return false;
 
-        this.adjMatrix[fst][scd] = weight;
+        this.connection[fst][scd] = weight;
 
         if(this.doublyLinked) {
-            this.adjMatrix[scd][fst] = weight;
+            this.connection[scd][fst] = weight;
         }
 
         return true;
     }
 
     public boolean unlink(int fst, int scd) {
-        if (fst >= this.adjMatrix.length || scd >= this.adjMatrix.length || fst < 0 || scd < 0)
+        if (fst >= this.connection.length || scd >= this.connection.length || fst < 0 || scd < 0)
             return false;
 
-        this.adjMatrix[fst][scd] = 0;
+        this.connection[fst][scd] = 0;
 
         if (doublyLinked) {
-            this.adjMatrix[scd][fst] = 0;
+            this.connection[scd][fst] = 0;
         }
         return true;
     }
 
     public void unlinkAll() {
-        for(int i = 0; i < this.adjMatrix.length; i++) {
-            for(int j = 0; j < this.adjMatrix[i].length; j++) {
-                this.adjMatrix[i][j] = 0;
+        for(int i = 0; i < this.connection.length; i++) {
+            for(int j = 0; j < this.connection[i].length; j++) {
+                this.connection[i][j] = 0;
             }
         }
     }
@@ -60,8 +60,8 @@ public class Dijkstra {
     //TODO
     public List<Integer> getShortestPath(int node1, int node2) {
         //Invalid values provided
-        if(node1 >= this.adjMatrix.length ||
-                node2 >= this.adjMatrix.length ||
+        if(node1 >= this.connection.length ||
+                node2 >= this.connection.length ||
                 node1 < 0 || node2 < 0)
             return null;
 
@@ -79,7 +79,7 @@ public class Dijkstra {
             return path;
         }
 
-        boolean[][] visitedNodes = new boolean[this.adjMatrix.length][this.adjMatrix.length];
+        boolean[][] visitedNodes = new boolean[this.connection.length][this.connection.length];
         int current = node1;
         int latest = node1;
         int smallestQtd = 0;
@@ -88,13 +88,14 @@ public class Dijkstra {
 
         while(getNonVisitedNode(visitedNodes, node1) > 0) {
             if(current == node2) {
+                path.add(current);
                 if(cost < smallestQtd){
                     smallestQtd = cost;
                     smallestPath = path;
 
-                    path = new ArrayList<>();
-
-                    path.add(node1);
+                    path = new ArrayList<>(){{
+                        add(node1);
+                    }};
                     current = node1;
                 }
             }
@@ -112,9 +113,9 @@ public class Dijkstra {
     public int getEdges() {
         int edges = 0;
 
-        for(int i = 0; i < this.adjMatrix.length; i++) {
-            for(int j = 0; j < this.adjMatrix[i].length; j++) {
-                if(this.adjMatrix[i][j] > 0) edges++;
+        for(int i = 0; i < this.connection.length; i++) {
+            for(int j = 0; j < this.connection[i].length; j++) {
+                if(this.connection[i][j] > 0) edges++;
             }
         }
 
@@ -122,7 +123,7 @@ public class Dijkstra {
     }
 
     public String getMatrixAsString() {
-        int mLength = this.adjMatrix.length;
+        int mLength = this.connection.length;
         StringBuilder builder = new StringBuilder(mLength <= 10 ? "\t" : "");
 
         if(mLength <= 10)
@@ -134,9 +135,9 @@ public class Dijkstra {
             if(mLength <= 10)
                 builder.append(i).append("\t");
 
-            for(int j = 0; j < this.adjMatrix[i].length; j++) {
-                builder.append(this.parseInt(this.adjMatrix[i][j]))
-                        .append(j < this.adjMatrix[i].length ? " " : "");
+            for(int j = 0; j < this.connection[i].length; j++) {
+                builder.append(this.parseInt(this.connection[i][j]))
+                        .append(j < this.connection[i].length ? " " : "");
             }
             if(i < mLength - 1)
                 builder.append("\n");
@@ -148,29 +149,29 @@ public class Dijkstra {
     public String toString() {
         StringBuilder builder = new StringBuilder("[");
 
-        for(int i = 0; i < this.adjMatrix.length; i++) {
-            for(int j = 0; j < this.adjMatrix[i].length; j++) {
-                if(this.adjMatrix[i][j] == 0)
+        for(int i = 0; i < this.connection.length; i++) {
+            for(int j = 0; j < this.connection[i].length; j++) {
+                if(this.connection[i][j] == 0)
                     continue;
 
-                if(i > j && this.adjMatrix[i][j] == this.adjMatrix[j][i])
+                if(i > j && this.connection[i][j] == this.connection[j][i])
                     continue;
 
                 if(builder.length() > 1)
                     builder.append(", ");
 
-                builder.append("(").append(i).append(this.adjMatrix[i][j] == this.adjMatrix[j][i] ? " <-> " : " -> ").append(j).append(") = ").append(this.adjMatrix[i][j]);
+                builder.append("(").append(i).append(this.connection[i][j] == this.connection[j][i] ? " <-> " : " -> ").append(j).append(") = ").append(this.connection[i][j]);
             }
         }
 
         return builder.append("]").toString();
     }
 
-    private int getNonVisitedNode(boolean[][] visitedNodes, int node) {
-        for(int i = 0; i < this.adjMatrix[node].length; i++) {
-            if(this.adjMatrix[node][i] > 0) {
-                System.out.println("this.adjMatrix[" + node + "]["+ i +"] = " + this.adjMatrix[node][i]);
-                System.out.println("visitedNodes[" + i +"] = " + visitedNodes[node][i]);
+    public int getNonVisitedNode(boolean[][] visitedNodes, int node) {
+        for(int i = 0; i < this.connection[node].length; i++) {
+            if(this.connection[node][i] > 0) {
+//                System.out.println("this.connection[" + node + "]["+ i +"] = " + this.connection[node][i]);
+//                System.out.println("visitedNodes[" + i +"] = " + visitedNodes[node][i]);
                 if (visitedNodes[node][i]) {
                     continue;
                 }
@@ -182,17 +183,17 @@ public class Dijkstra {
     }
 
     private boolean isLinked(int n1, int n2) {
-        return this.adjMatrix[n1][n2] > 0;
+        return this.connection[n1][n2] > 0;
     }
 
-    private boolean hasConnections(int node) {
-        for(int i = 0; i < this.adjMatrix[node].length; i++) {
-            if(this.adjMatrix[node][i] > 0)
+    public boolean hasConnections(int node) {
+        for(int i = 0; i < this.connection[node].length; i++) {
+            if(this.connection[node][i] > 0)
                 return true;
         }
 
-        for(int i = 0; i < this.adjMatrix.length; i++) {
-            if(this.adjMatrix[i][node] > 0)
+        for(int i = 0; i < this.connection.length; i++) {
+            if(this.connection[i][node] > 0)
                 return true;
         }
 
