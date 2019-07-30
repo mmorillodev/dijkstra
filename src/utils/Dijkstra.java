@@ -1,7 +1,6 @@
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+package utils;
+
+import java.util.*;
 
 public class Dijkstra {
     private int[][]     adjMatrix;
@@ -59,10 +58,14 @@ public class Dijkstra {
     }
 
     //TODO
-    public Integer[] getShortestPath(int node1, int node2) {
-        if(node1 >= this.adjMatrix.length || node2 >= this.adjMatrix.length || node1 < 0 || node2 < 0)
+    public List<Integer> getShortestPath(int node1, int node2) {
+        //Invalid values provided
+        if(node1 >= this.adjMatrix.length ||
+                node2 >= this.adjMatrix.length ||
+                node1 < 0 || node2 < 0)
             return null;
 
+        //Node provided has no links
         if(!hasConnections(node1))
             return null;
 
@@ -70,33 +73,40 @@ public class Dijkstra {
             add(node1);
         }};
 
-        Integer[] arr;
-
+        //Node 1 is directly linked to node 2
         if(isLinked(node1, node2)) {
             path.add(node2);
-            arr = new Integer[path.size()];
-            return path.toArray(arr);
+            return path;
         }
 
-        boolean[] visitedNodes = new boolean[this.adjMatrix.length];
+        boolean[][] visitedNodes = new boolean[this.adjMatrix.length][this.adjMatrix.length];
         int current = node1;
-        int qtd = 0;
+        int latest = node1;
+        int smallestQtd = 0;
+        List<Integer> smallestPath = path;
+        int cost = 0;
 
-        while(current != node2) {
-            if(current == -1) {
-                qtd = 0;
-                current = node1;
+        while(getNonVisitedNode(visitedNodes, node1) > 0) {
+            if(current == node2) {
+                if(cost < smallestQtd){
+                    smallestQtd = cost;
+                    smallestPath = path;
+
+                    path = new ArrayList<>();
+
+                    path.add(node1);
+                    current = node1;
+                }
             }
 
-            visitedNodes[current] = true;
-            qtd ++;
+            visitedNodes[latest][current] = true;
+            cost ++;
+            latest = current;
             current = getNonVisitedNode(visitedNodes, current);
-            System.out.println(current);
             path.add(current);
         }
 
-        arr = new Integer[path.size()];
-        return path.toArray(arr);
+        return smallestPath;
     }
 
     public int getEdges() {
@@ -156,12 +166,12 @@ public class Dijkstra {
         return builder.append("]").toString();
     }
 
-    private int getNonVisitedNode(boolean[] visitedNodes, int node) {
+    private int getNonVisitedNode(boolean[][] visitedNodes, int node) {
         for(int i = 0; i < this.adjMatrix[node].length; i++) {
             if(this.adjMatrix[node][i] > 0) {
                 System.out.println("this.adjMatrix[" + node + "]["+ i +"] = " + this.adjMatrix[node][i]);
-                System.out.println("visitedNodes[" + i +"] = " + visitedNodes[i]);
-                if (visitedNodes[i]) {
+                System.out.println("visitedNodes[" + i +"] = " + visitedNodes[node][i]);
+                if (visitedNodes[node][i]) {
                     continue;
                 }
                 return i;

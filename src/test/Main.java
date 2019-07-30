@@ -1,3 +1,5 @@
+package test;
+import utils.Dijkstra;
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
@@ -96,10 +98,10 @@ public class Main {
 
                 System.out.println();
 
-                Integer[] path = dijkstra.getShortestPath(fst, scd);
+                List<Integer> path = dijkstra.getShortestPath(fst, scd);
 
                 if(path != null) {
-                    System.out.println(arrToString(path) + "\n");
+                    System.out.println(path.toString() + "\n");
                 }
                 else {
                     System.err.println("Either no path found or invalid values provided!");
@@ -145,14 +147,5 @@ public class Main {
         for (int i = 0; i < 25; i++) {
             System.out.println();
         }
-    }
-
-    private static String arrToString(Integer[] arr) {
-        StringBuilder builder = new StringBuilder("[");
-        int i = 0;
-        for(Integer num : arr) {
-            builder.append(num).append(i < arr.length -1 ? ", " : "");
-        }
-        return builder.append("]").toString();
     }
 }
