@@ -14,6 +14,7 @@ public class Test {
             link(0,4);
             link(4,2);
         }};
+
         boolean[][] visited = new boolean[6][6];
         visited[0][1] = true;
         visited[0][3] = true;
@@ -24,6 +25,6 @@ public class Test {
         System.out.println(d.getNonVisitedNode(visited, 1));
         System.out.println(d.hasConnections(5));
 
-        System.out.println(d.getShortestPath(1, 4));
+        System.out.println(d.getShortestPath(0, 2));
     }
 }
