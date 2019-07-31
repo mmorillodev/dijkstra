@@ -4,7 +4,7 @@ import java.util.*;
 
 public class Dijkstra {
     private int[][] connection;
-    private boolean     doublyLinked;
+    private boolean doublyLinked;
 
     public Dijkstra(int qtd, boolean doublyLinked) {
         this.connection = new int[qtd][qtd];
@@ -82,28 +82,33 @@ public class Dijkstra {
         boolean[][] visitedNodes = new boolean[this.connection.length][this.connection.length];
         int current = node1;
         int latest = node1;
-        int smallestQtd = 0;
         List<Integer> smallestPath = path;
-        int cost = 0;
 
-        while(getNonVisitedNode(visitedNodes, node1) > 0) {
+        for (int cost = 0, smallestCost = 0; getNonVisitedNode(visitedNodes, node1) > 0; ) {
             if(current == node2) {
+                cost += this.connection[latest][current];
                 path.add(current);
-                if(cost < smallestQtd){
-                    smallestQtd = cost;
+                if(cost < smallestCost || smallestCost == 0){
+                    smallestCost = cost;
                     smallestPath = path;
 
                     path = new ArrayList<>(){{
                         add(node1);
                     }};
+
                     current = node1;
+                    latest = node1;
                 }
             }
 
             visitedNodes[latest][current] = true;
-            cost ++;
+            visitedNodes[current][latest] = true;
+
+            cost += this.connection[latest][current];
+
             latest = current;
             current = getNonVisitedNode(visitedNodes, current);
+
             path.add(current);
         }
 
